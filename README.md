@@ -37,7 +37,8 @@ Pull request are welcome! Please test your changes manually with the example app
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  web_browser: ^0.3.0
+  universal_html: ^1.2.3
+  web_browser: ^0.3.1
 ```
 
 For iOS support, you should follow the usual [webview_flutter](https://pub.dev/packages/webview_flutter)
@@ -47,7 +48,26 @@ instructions, which means adding the following snippet in `ios/Runner/Info.plist
 <true />
 ```
 
-## 2. Try it
+## 2.Display DOM nodes
+```dart
+import 'package:flutter/material.dart';
+import 'package:universal_html/html.dart' show html;
+import 'package:web_browser/web_browser.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: SafeArea(
+        child: WebNode(
+          node: html.HeadingElement.h1()..appendText('Hello'),
+        ),
+      ),
+    ),
+  ));
+}
+```
+
+## 3.Display web browser
 ```dart
 import 'package:flutter/material.dart';
 import 'package:web_browser/web_browser.dart';

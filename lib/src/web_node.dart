@@ -34,7 +34,7 @@ import 'web_node_impl_default.dart'
 ///
 /// ## Example
 /// ```
-/// import 'package:web_browser/html.dart';
+/// import 'package:universal_html/html.dart';
 /// import 'package:web_browser/web_browser.dart';
 ///
 /// class MyWidget extends StatelessWidget {

@@ -1,3 +1,7 @@
+## 0.3.1
+  * Relaxes dependency constraints.
+  * Improves documentation.
+
 ## 0.3.0
   * Fixes dependency constraints.
   * Fixes bugs with some breaking changes.

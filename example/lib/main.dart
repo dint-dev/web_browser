@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:web_browser/html.dart' as html;
+import 'package:universal_html/html.dart' as html;
 import 'package:web_browser/web_browser.dart';
 
 void main() {
