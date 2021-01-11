@@ -25,6 +25,11 @@ class WebResourceError {
   WebResourceError({this.errorType});
 }
 
+enum AutoMediaPlaybackPolicy {
+  require_user_action_for_all_media_types,
+  always_allow,
+}
+
 enum WebResourceErrorType {  /// User authentication failed on server.
   authentication,
   badUrl,

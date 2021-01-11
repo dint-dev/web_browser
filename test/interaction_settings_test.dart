@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:web_browser/src/interaction_settings.dart';
+import 'package:web_browser/web_browser.dart';
 
 void main() {
   group('InteractionSettings:', () {

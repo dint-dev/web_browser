@@ -14,8 +14,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:universal_html/html.dart';
-import 'package:web_browser/src/feature_policy.dart';
-import 'package:web_browser/src/iframe_settings.dart';
+import 'package:web_browser/web_browser.dart';
 
 void main() {
   group('IframeSettings:', () {

@@ -1,3 +1,6 @@
+## 0.3.2
+  * Fixes small issues.
+
 ## 0.3.1
   * Relaxes dependency constraints.
   * Improves documentation.

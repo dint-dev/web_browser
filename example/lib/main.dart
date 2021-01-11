@@ -34,15 +34,15 @@ class MyAppState extends State<MyApp> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.web),
-              title: Text('WebBrowser'),
+              label: 'WebBrowser',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.slideshow),
-              title: Text('WebNode'),
+              label: 'WebNode',
             ),
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.settings),
-              title: Text('Settings'),
+              label: 'Settings',
             ),
           ],
           onTap: (i) {

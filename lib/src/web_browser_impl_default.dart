@@ -18,13 +18,13 @@ import 'package:flutter/widgets.dart';
 import 'package:web_browser/src/web_browser_impl.dart';
 import 'package:web_browser/web_browser.dart';
 import 'package:webview_flutter/webview_flutter.dart' as web_view;
+import 'package:webview_flutter/webview_flutter.dart' show AutoMediaPlaybackPolicy;
 
 import '../web_browser.dart';
 
 export 'package:webview_flutter/platform_interface.dart'
     show WebResourceError, WebResourceErrorType;
-
-export 'package:webview_flutter/webview_flutter.dart' show CookieManager;
+export 'package:webview_flutter/webview_flutter.dart' show AutoMediaPlaybackPolicy, CookieManager;
 
 class WebBrowserState extends State<WebBrowser> {
   Widget _builtWidget;

@@ -62,7 +62,7 @@ String serializeNode(
       }
 
       // Set CSS properties based on scaffold
-      final scaffoldState = Scaffold.of(context);
+      final scaffoldState = Scaffold.maybeOf(context);
       if (scaffoldState != null) {
         if (cssStyle.backgroundColor == '') {
           cssStyle.backgroundColor = _cssFromColor(
@@ -72,7 +72,7 @@ String serializeNode(
       }
 
       final cupertinoTheme = CupertinoTheme.of(context);
-      if (cupertinoTheme != null) {
+      {
         final textStyle = cupertinoTheme.textTheme?.textStyle;
         if (textStyle != null) {
           if (cssStyle.fontFamily == '') {
@@ -94,7 +94,7 @@ String serializeNode(
 
       // Set CSS properties based on theme
       final theme = Theme.of(context);
-      if (theme != null) {
+      {
         final bodyText = theme.textTheme?.bodyText2;
         if (bodyText != null) {
           if (cssStyle.fontFamily == '') {

@@ -17,7 +17,7 @@ import 'package:web_browser/web_browser.dart';
 /// Uses Google for searching.
 void defaultOnSearch(WebBrowserController controller, String query) {
   final url = Uri.dataFromString(
-    '<html><body><h1>Searches are unsupported in browsers</h1></body></html>',
+    '<html><body><p>Searching is currently unsupported when Flutter application runs in browser.</p></body></html>',
     mimeType: 'text/html',
   ).toString();
   controller.loadUrl(url);

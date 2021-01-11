@@ -15,9 +15,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:web_browser/web_browser.dart';
 
-export 'package:webview_flutter/webview_flutter.dart'
-    show AutoMediaPlaybackPolicy;
-
 class WebBrowserInteractionSettings {
   /// Top bar. By default, [WebBrowserAddressBar].
   ///

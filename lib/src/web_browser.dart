@@ -21,12 +21,16 @@ import 'package:web_browser/web_browser.dart';
 import 'web_browser_impl_default.dart'
     if (dart.library.html) 'web_browser_impl_browser.dart' as impl;
 import 'web_browser_impl_default.dart'
-if (dart.library.html) 'web_browser_impl_browser.dart'
+    if (dart.library.html) 'web_browser_impl_browser.dart'
     show WebResourceError;
 
 export 'web_browser_impl_default.dart'
     if (dart.library.html) 'web_browser_impl_browser.dart'
-    show WebResourceError, WebResourceErrorType, WebBrowserState;
+    show
+        AutoMediaPlaybackPolicy,
+        WebResourceError,
+        WebResourceErrorType,
+        WebBrowserState;
 
 /// A widget for showing a web page.
 ///
