@@ -19,38 +19,11 @@ import 'dart:js' as js;
 import 'package:flutter/widgets.dart';
 import 'package:web_browser/src/web_browser_impl.dart';
 import 'package:web_browser/web_browser.dart';
-
-class WebResourceError {
-  final WebResourceErrorType errorType;
-  WebResourceError({this.errorType});
-}
+import 'package:web_node/web_node.dart';
 
 enum AutoMediaPlaybackPolicy {
   require_user_action_for_all_media_types,
   always_allow,
-}
-
-enum WebResourceErrorType {  /// User authentication failed on server.
-  authentication,
-  badUrl,
-  connect,
-  failedSslHandshake,
-  file,
-  fileNotFound,
-  hostLookup,
-  io,
-  proxyAuthentication,
-  redirectLoop,
-  timeout,
-  tooManyRequests,
-  unknown,
-  unsafeResource,
-  unsupportedAuthScheme,
-  unsupportedScheme,
-  webContentProcessTerminated,
-  webViewInvalidated,
-  javaScriptExceptionOccurred,
-  javaScriptResultTypeIsUnsupported,
 }
 
 class CookieManager {}
@@ -109,6 +82,34 @@ class WebBrowserState extends State<WebBrowser> {
     }
     super.didUpdateWidget(oldWidget);
   }
+}
+
+class WebResourceError {
+  final WebResourceErrorType errorType;
+  WebResourceError({this.errorType});
+}
+
+enum WebResourceErrorType {  /// User authentication failed on server.
+  authentication,
+  badUrl,
+  connect,
+  failedSslHandshake,
+  file,
+  fileNotFound,
+  hostLookup,
+  io,
+  proxyAuthentication,
+  redirectLoop,
+  timeout,
+  tooManyRequests,
+  unknown,
+  unsafeResource,
+  unsupportedAuthScheme,
+  unsupportedScheme,
+  webContentProcessTerminated,
+  webViewInvalidated,
+  javaScriptExceptionOccurred,
+  javaScriptResultTypeIsUnsupported,
 }
 
 class _WebBrowserController extends WebBrowserController {

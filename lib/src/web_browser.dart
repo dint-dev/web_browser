@@ -32,14 +32,24 @@ export 'web_browser_impl_default.dart'
         WebResourceErrorType,
         WebBrowserState;
 
-/// A widget for showing a web page.
+/// A Flutter widget for displaying websites or other web content.
 ///
-/// Behavior by platform:
-///   * In browsers, the widget uses `<iframe src="URL">`.
-///   * In other platforms, the widget uses [webview_flutter](https://pub.dev/packages/webview_flutter),
-///     which is a plugin maintained by Google.
+/// # Cross-platform
+///   * In Android and iOS, this package uses [webview_flutter](https://pub.dev/packages/webview_flutter),
+///     which is maintained by Google.
+///     * However, _webview_flutter_ does not support browsers.
+///   * In browsers, the package uses [package:web_node](https://pub.dev/packages/web_node) to display web
+///     content inside `<iframe>`.
+///     * Only works for websites that allow iframes.
+///     * Only some navigation features are supported (because of iframe limitations).
 ///
-/// ## Example
+/// # Optional navigation widgets
+///   * Address bar ([WebBrowserAddressBar])
+///   * Share button ([WebBrowserShareButton])
+///   * Back button ([WebBrowserBackButton])
+///   * Forward button ([WebBrowserForwardButton])
+///
+/// # Example
 /// ```
 /// import 'package:web_browser/web_browser.dart';
 ///

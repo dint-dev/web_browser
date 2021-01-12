@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Shows web content in Flutter applications.
+/// Contains [WebBrowser], a widget for displaying websites and web content.
 library web_browser;
 
 export 'src/controller.dart';
@@ -24,4 +24,3 @@ export 'src/web_browser.dart';
 export 'src/web_browser_address_bar.dart';
 export 'src/web_browser_buttons.dart';
 export 'src/web_browser_navigation_bar.dart';
-export 'src/web_node.dart';

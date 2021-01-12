@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/widgets.dart';
+
 import 'share_url_impl_default.dart'
     if (dart.library.html) 'share_url_impl_browser.dart' as impl;
 

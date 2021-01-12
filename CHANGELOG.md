@@ -1,3 +1,6 @@
+## 0.4.0
+  * Moves `WebNode` to [package:web_node](https://pub.dev/packages/web_node).
+
 ## 0.3.2
   * Fixes small issues.
 

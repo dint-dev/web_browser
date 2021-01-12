@@ -31,22 +31,6 @@ class WebBrowserFeaturePolicy {
       _WebBrowserFeaturePolicyFromString;
 }
 
-class _WebBrowserFeaturePolicyFromString implements WebBrowserFeaturePolicy {
-  final String _value;
-
-  const _WebBrowserFeaturePolicyFromString(this._value);
-
-  @override
-  int get hashCode => _value.hashCode;
-
-  @override
-  bool operator ==(other) =>
-      other is WebBrowserFeaturePolicy && toString() == other.toString();
-
-  @override
-  String toString() => _value;
-}
-
 class _WebBrowserFeaturePolicy implements WebBrowserFeaturePolicy {
   final bool autoplay;
   final bool camera;
@@ -99,4 +83,20 @@ class _WebBrowserFeaturePolicy implements WebBrowserFeaturePolicy {
     }
     return list.join(' ');
   }
+}
+
+class _WebBrowserFeaturePolicyFromString implements WebBrowserFeaturePolicy {
+  final String _value;
+
+  const _WebBrowserFeaturePolicyFromString(this._value);
+
+  @override
+  int get hashCode => _value.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is WebBrowserFeaturePolicy && toString() == other.toString();
+
+  @override
+  String toString() => _value;
 }

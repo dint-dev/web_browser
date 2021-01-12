@@ -17,6 +17,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_browser/web_browser.dart';
+
 import 'search_impl_default.dart'
     if (dart.library.html) 'search_impl_browser.dart';
 

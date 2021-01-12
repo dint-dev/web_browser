@@ -14,12 +14,6 @@
 
 import 'package:flutter/widgets.dart';
 
-class WebBrowserNavigationEvent {
-  final WebBrowserController controller;
-  final String url;
-  WebBrowserNavigationEvent(this.controller, this.url);
-}
-
 /// A web browser controller obtained from [WebBrowser.onCreated].
 abstract class WebBrowserController {
   Stream<WebBrowserNavigationEvent> get onNavigation;
@@ -76,4 +70,10 @@ class WebBrowserControllerWidget extends InheritedWidget {
       return false;
     }
   }
+}
+
+class WebBrowserNavigationEvent {
+  final WebBrowserController controller;
+  final String url;
+  WebBrowserNavigationEvent(this.controller, this.url);
 }
