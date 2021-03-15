@@ -19,12 +19,12 @@ class WebBrowserInteractionSettings {
   /// Top bar. By default, [WebBrowserAddressBar].
   ///
   /// If the value is null, no top bar is shown.
-  final Widget topBar;
+  final Widget? topBar;
 
   /// Top bar. By default, [WebBrowserNavigationBar].
   ///
   /// If the value is null, no bottom bar is shown.
-  final Widget bottomBar;
+  final Widget? bottomBar;
 
   /// Whether gesture navigation is enabled. Default is false.
   /// Only supported in Android and iOS.

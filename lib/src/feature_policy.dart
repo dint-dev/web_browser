@@ -18,20 +18,6 @@ import 'package:web_browser/src/iframe_settings.dart';
 ///
 /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy).
 class WebBrowserFeaturePolicy {
-  const factory WebBrowserFeaturePolicy({
-    bool autoplay,
-    bool camera,
-    bool geolocation,
-    bool fullscreen,
-    bool payment,
-    bool publicKeyCredentialsGet,
-  }) = _WebBrowserFeaturePolicy;
-
-  const factory WebBrowserFeaturePolicy.fromString(String value) =
-      _WebBrowserFeaturePolicyFromString;
-}
-
-class _WebBrowserFeaturePolicy implements WebBrowserFeaturePolicy {
   final bool autoplay;
   final bool camera;
   final bool geolocation;
@@ -39,19 +25,14 @@ class _WebBrowserFeaturePolicy implements WebBrowserFeaturePolicy {
   final bool payment;
   final bool publicKeyCredentialsGet;
 
-  const _WebBrowserFeaturePolicy({
+  const WebBrowserFeaturePolicy({
     this.autoplay = false,
     this.camera = false,
     this.geolocation = false,
     this.fullscreen = false,
     this.payment = false,
     this.publicKeyCredentialsGet = false,
-  })  : assert(autoplay != null),
-        assert(camera != null),
-        assert(geolocation != null),
-        assert(fullscreen != null),
-        assert(payment != null),
-        assert(publicKeyCredentialsGet != null);
+  });
 
   @override
   int get hashCode => toString().hashCode;
@@ -83,20 +64,4 @@ class _WebBrowserFeaturePolicy implements WebBrowserFeaturePolicy {
     }
     return list.join(' ');
   }
-}
-
-class _WebBrowserFeaturePolicyFromString implements WebBrowserFeaturePolicy {
-  final String _value;
-
-  const _WebBrowserFeaturePolicyFromString(this._value);
-
-  @override
-  int get hashCode => _value.hashCode;
-
-  @override
-  bool operator ==(other) =>
-      other is WebBrowserFeaturePolicy && toString() == other.toString();
-
-  @override
-  String toString() => _value;
 }

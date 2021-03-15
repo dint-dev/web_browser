@@ -18,17 +18,19 @@ import 'package:flutter/widgets.dart';
 import 'package:web_browser/src/web_browser_impl.dart';
 import 'package:web_browser/web_browser.dart';
 import 'package:webview_flutter/webview_flutter.dart' as web_view;
-import 'package:webview_flutter/webview_flutter.dart' show AutoMediaPlaybackPolicy;
+import 'package:webview_flutter/webview_flutter.dart'
+    show AutoMediaPlaybackPolicy;
 
 import '../web_browser.dart';
 
 export 'package:webview_flutter/platform_interface.dart'
     show WebResourceError, WebResourceErrorType;
-export 'package:webview_flutter/webview_flutter.dart' show AutoMediaPlaybackPolicy, CookieManager;
+export 'package:webview_flutter/webview_flutter.dart'
+    show AutoMediaPlaybackPolicy, CookieManager;
 
 class WebBrowserState extends State<WebBrowser> {
-  Widget _builtWidget;
-  _WebBrowserController _controller;
+  Widget? _builtWidget;
+  _WebBrowserController? _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +49,9 @@ class WebBrowserState extends State<WebBrowser> {
             ? web_view.JavascriptMode.unrestricted
             : web_view.JavascriptMode.disabled,
         onWebViewCreated: (webViewController) {
-          _controller._controller = webViewController;
+          _controller!._controller = webViewController;
           if (widget.onCreated != null) {
-            widget.onCreated(_controller);
+            widget.onCreated!(_controller);
           }
         },
         onWebResourceError: widget.onError,
@@ -63,7 +65,7 @@ class WebBrowserState extends State<WebBrowser> {
             }
           }
           if (request.isForMainFrame) {
-            _controller._dispatchNavigation(request.url);
+            _controller!._dispatchNavigation(request.url);
           }
           return web_view.NavigationDecision.navigate;
         },
@@ -71,11 +73,11 @@ class WebBrowserState extends State<WebBrowser> {
       _builtWidget = wrapWebBrowser(
         context,
         widget,
-        _controller,
+        _controller!,
         webView,
       );
     }
-    return _builtWidget;
+    return _builtWidget!;
   }
 
   @override
@@ -95,7 +97,7 @@ class WebBrowserState extends State<WebBrowser> {
 
 class _WebBrowserController extends WebBrowserController {
   final WebBrowserState state;
-  web_view.WebViewController _controller;
+  web_view.WebViewController? _controller;
 
   final _webNavigationEventController =
       StreamController<WebBrowserNavigationEvent>.broadcast();
@@ -108,32 +110,32 @@ class _WebBrowserController extends WebBrowserController {
       _webNavigationEventController.stream;
 
   @override
-  Future<String> currentUrl() {
+  Future<String?> currentUrl() {
     if (_controller == null) {
-      return Future<String>.value(state.widget?.initialUrl);
+      return Future<String>.value(state.widget.initialUrl);
     }
-    return _controller.currentUrl();
+    return _controller!.currentUrl();
   }
 
   @override
-  Future<void> evaluateJavascript(String javascriptString) {
+  Future<void>? evaluateJavascript(String javascriptString) {
     return _controller?.evaluateJavascript(javascriptString);
   }
 
   @override
-  Future<void> goBack() {
+  Future<void>? goBack() {
     return _controller?.goBack();
   }
 
   @override
-  Future<void> goForward() {
+  Future<void>? goForward() {
     return _controller?.goForward();
   }
 
   @override
-  Future<void> loadUrl(String url, {Map<String, String> headers}) async {
+  Future<void> loadUrl(String url, {Map<String, String>? headers}) async {
     // ignore: unawaited_futures
-    _controller.loadUrl(url, headers: headers).then((value) {
+    _controller!.loadUrl(url, headers: headers).then((value) {
       _dispatchNavigation(url);
     });
   }
@@ -144,7 +146,7 @@ class _WebBrowserController extends WebBrowserController {
   }
 
   @override
-  Future<void> reload() {
+  Future<void>? reload() {
     return _controller?.reload();
   }
 

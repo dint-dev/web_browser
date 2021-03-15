@@ -33,7 +33,7 @@ widget is cross-platform:
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  web_browser: ^0.4.0
+  web_browser: ^0.5.0
 ```
 
 ## 2.Display web browser

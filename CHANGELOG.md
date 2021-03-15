@@ -1,3 +1,6 @@
+## 0.5.0
+  * Migrates to Flutter 2.
+
 ## 0.4.0
   * Moves `WebNode` to [package:web_node](https://pub.dev/packages/web_node).
 

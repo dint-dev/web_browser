@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:csp/csp.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:universal_html/html.dart';
 import 'package:web_browser/web_browser.dart';
 
 void main() {
   group('IframeSettings:', () {
-    IFrameElement element;
+    late IFrameElement element;
 
     setUp(() {
       element = IFrameElement();
@@ -26,28 +27,28 @@ void main() {
 
     test('==', () {
       final value = WebBrowserIFrameSettings(
-        allow: WebBrowserFeaturePolicy.fromString('allow'),
-        csp: 'csp',
+        allow: WebBrowserFeaturePolicy(),
+        csp: Csp.parse(''),
         referrerPolicy: 'referrerPolicy',
       );
       final clone = WebBrowserIFrameSettings(
-        allow: WebBrowserFeaturePolicy.fromString('allow'),
-        csp: 'csp',
+        allow: WebBrowserFeaturePolicy(),
+        csp: Csp.parse(''),
         referrerPolicy: 'referrerPolicy',
       );
       final other0 = WebBrowserIFrameSettings(
-        allow: WebBrowserFeaturePolicy.fromString('OTHER'),
-        csp: 'csp',
+        allow: WebBrowserFeaturePolicy(geolocation: true),
+        csp: Csp.parse(''),
         referrerPolicy: 'referrerPolicy',
       );
       final other1 = WebBrowserIFrameSettings(
-        allow: WebBrowserFeaturePolicy.fromString('allow'),
-        csp: 'OTHER',
+        allow: WebBrowserFeaturePolicy(),
+        csp: Csp.parse('OTHER'),
         referrerPolicy: 'referrerPolicy',
       );
       final other2 = WebBrowserIFrameSettings(
-        allow: WebBrowserFeaturePolicy.fromString('allow'),
-        csp: 'csp',
+        allow: WebBrowserFeaturePolicy(),
+        csp: Csp.parse(''),
         referrerPolicy: 'OTHER',
       );
 
@@ -73,11 +74,11 @@ void main() {
     });
 
     test('csp', () {
-      const settings = WebBrowserIFrameSettings(
-        csp: 'abc',
+      final settings = WebBrowserIFrameSettings(
+        csp: Csp.parse('default-src: *'),
       );
       settings.applyToIFrameElement(element);
-      expect(element.csp, 'abc');
+      expect(element.csp, 'default-src: *');
     });
 
     test('height', () {

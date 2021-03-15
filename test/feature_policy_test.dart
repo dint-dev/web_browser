@@ -39,23 +39,4 @@ void main() {
       );
     });
   });
-
-  group('FeaturePolicy.fromString(...):', () {
-    test('==', () {
-      final value = WebBrowserFeaturePolicy.fromString('camera');
-      final clone = WebBrowserFeaturePolicy.fromString('camera');
-      final other = WebBrowserFeaturePolicy.fromString('geolocation');
-
-      expect(value.hashCode, clone.hashCode);
-      expect(value.hashCode, isNot(other.hashCode));
-
-      expect(value, clone);
-      expect(value, isNot(other));
-    });
-
-    test('toString', () {
-      final policy = WebBrowserFeaturePolicy.fromString('camera');
-      expect(policy.toString(), 'camera');
-    });
-  });
 }

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:csp/csp.dart';
 import 'package:universal_html/html.dart' show IFrameElement;
 import 'package:web_browser/web_browser.dart';
 
@@ -22,56 +23,56 @@ class WebBrowserIFrameSettings {
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final WebBrowserFeaturePolicy allow;
+  final WebBrowserFeaturePolicy? allow;
 
   /// `<iframe>` content security policy.
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String csp;
+  final Csp? csp;
 
   /// `<iframe>` "height" attribute. By default, "100%".
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String height;
+  final String? height;
 
   /// `<iframe>` "importance" attribute. By default, undefined.
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String importance;
+  final String? importance;
 
   /// `<iframe>` "referrerpolicy" attribute. By default, undefined.
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String referrerPolicy;
+  final String? referrerPolicy;
 
   /// `<iframe>` "sandbox" attribute. By default, undefined.
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String sandbox;
+  final String? sandbox;
 
   /// `<iframe>` "scrolling" attribute. By default, undefined.
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String scrolling;
+  final String? scrolling;
 
   /// `<iframe>` "width" attribute. By default, "100%".
   /// Only supported in browsers.
   /// Ignored in other platforms.
   ///
   /// See [documentation at developer.mozilla.com](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe).
-  final String width;
+  final String? width;
 
   const WebBrowserIFrameSettings({
     this.allow,
@@ -111,37 +112,37 @@ class WebBrowserIFrameSettings {
     // IMPORTANT:
     // We noticed browsers throw errors if some attributes (such as 'csp' and
     // 'sandbox') are null.
-    final csp = this.csp ?? '';
-    if (csp != element.csp ?? '') {
-      element.csp = csp;
+    final cspSourceString = csp?.toSourceString() ?? '';
+    if (cspSourceString != element.csp) {
+      element.csp = cspSourceString;
     }
     final height = this.height ?? '';
-    if (height != element.height ?? '') {
+    if (height != element.height) {
       element.height = height;
     }
     final width = this.width ?? '';
-    if (width != element.width ?? '') {
+    if (width != element.width) {
       element.width = width;
     }
     final allow = this.allow ?? '';
-    if (allow != element.allow ?? '') {
-      element.allow = allow?.toString();
+    if (allow != element.allow) {
+      element.allow = allow.toString();
     }
     final referrerPolicy = this.referrerPolicy ?? '';
-    if (referrerPolicy != element.referrerPolicy ?? '') {
+    if (referrerPolicy != element.referrerPolicy) {
       element.referrerPolicy = referrerPolicy;
     }
     final sandbox = this.sandbox;
     if (sandbox != element.getAttribute('sandbox')) {
-      element.setAttribute('sandbox', sandbox);
+      element.setAttribute('sandbox', sandbox!);
     }
     final importance = this.importance;
     if (importance != element.getAttribute('importance')) {
-      element.setAttribute('importance', importance);
+      element.setAttribute('importance', importance!);
     }
     final scrolling = this.scrolling;
     if (scrolling != element.getAttribute('scrolling')) {
-      element.setAttribute('scrolling', scrolling);
+      element.setAttribute('scrolling', scrolling!);
     }
   }
 }

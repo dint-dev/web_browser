@@ -19,33 +19,33 @@ abstract class WebBrowserController {
   Stream<WebBrowserNavigationEvent> get onNavigation;
 
   /// Returns the current URL. May return null when `<iframe>` is used.
-  Future<String> currentUrl();
+  Future<String?> currentUrl();
 
   /// Evaluates a Javascript source string. Ignored when `<iframe>` is used.
-  Future<void> evaluateJavascript(String javascriptString);
+  Future<void>? evaluateJavascript(String javascriptString);
 
   /// Goes backward in history.
-  Future<void> goBack();
+  Future<void>? goBack();
 
   /// Goes forward in history.
-  Future<void> goForward();
+  Future<void>? goForward();
 
   /// Loads an URL.
   ///
   /// You can optionally define headers, but they will be ignored when
   /// `<iframe>` is used.
-  Future<void> loadUrl(String url, {Map<String, String> headers});
+  Future<void> loadUrl(String url, {Map<String, String>? headers});
 
   /// Posts a message in the window. Currently works only when `<iframe>` is
   /// used.
   Future<void> postMessage(dynamic message, String targetOrigin);
 
   /// Reloads the current URL.
-  Future<void> reload();
+  Future<void>? reload();
 
   static WebBrowserController of(BuildContext context) {
     final webBrowserControllerWidget = context
-        .dependOnInheritedWidgetOfExactType<WebBrowserControllerWidget>();
+        .dependOnInheritedWidgetOfExactType<WebBrowserControllerWidget>()!;
     return webBrowserControllerWidget.controller;
   }
 }
@@ -55,12 +55,10 @@ class WebBrowserControllerWidget extends InheritedWidget {
   final WebBrowserController controller;
 
   WebBrowserControllerWidget({
-    Key key,
-    @required this.controller,
-    @required Widget child,
-  })  : assert(controller != null),
-        assert(child != null),
-        super(key: key, child: child);
+    Key? key,
+    required this.controller,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {

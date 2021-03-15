@@ -29,11 +29,11 @@ class WebBrowserAddressBar extends StatefulWidget {
   /// Handler for search queries. Default is [defaultOnSearch].
   ///
   /// If the value is null, search queries are not recognized.
-  final FutureOr<void> Function(WebBrowserController controller, String query)
+  final FutureOr<void> Function(WebBrowserController controller, String query)?
       onSearch;
 
   const WebBrowserAddressBar({
-    Key key,
+    Key? key,
     this.onSearch = defaultOnSearch,
     this.buttons = const <Widget>[
       WebBrowserShareButton(),
@@ -48,9 +48,9 @@ class WebBrowserAddressBar extends StatefulWidget {
 
 class _WebBrowserAddressBarState extends State<WebBrowserAddressBar> {
   final _textEditingController = TextEditingController();
-  StreamSubscription<WebBrowserNavigationEvent> _subscription;
+  StreamSubscription<WebBrowserNavigationEvent>? _subscription;
 
-  FocusNode _focusNode;
+  FocusNode? _focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,6 @@ class _WebBrowserAddressBarState extends State<WebBrowserAddressBar> {
       _textEditingController.text = url;
       _textEditingController.selection = TextSelection.collapsed(offset: 0);
     });
-    assert(controller != null);
     _textEditingController.text = 'address';
     _textEditingController.value = TextEditingValue(text: 'value');
     final onSearch = widget.onSearch;
@@ -94,10 +93,10 @@ class _WebBrowserAddressBarState extends State<WebBrowserAddressBar> {
         // Is it a search query?
         final parsedUri = Uri.tryParse(value);
         if (onSearch != null) {
-          final isNotGoodURL = value.contains(' ') ||
+          final isProbablySearchQuery = value.contains(' ') ||
               parsedUri == null ||
-              (!parsedUri.hasScheme && !(parsedUri.host ?? '').contains('.'));
-          if (isNotGoodURL) {
+              (!parsedUri.hasScheme && !value.contains('.'));
+          if (isProbablySearchQuery) {
             // A search query
             onSearch(controller, value);
             return;
@@ -135,7 +134,7 @@ class _WebBrowserAddressBarState extends State<WebBrowserAddressBar> {
 
   @override
   void dispose() {
-    _subscription.cancel();
+    _subscription!.cancel();
     _focusNode?.dispose();
     super.dispose();
   }
@@ -143,7 +142,7 @@ class _WebBrowserAddressBarState extends State<WebBrowserAddressBar> {
   @override
   void initState() {
     _focusNode = FocusNode();
-    _focusNode.addListener(() {
+    _focusNode!.addListener(() {
       _textEditingController.selection = TextSelection(
         baseOffset: 0,
         extentOffset: _textEditingController.text.length,
@@ -153,7 +152,7 @@ class _WebBrowserAddressBarState extends State<WebBrowserAddressBar> {
     super.initState();
   }
 
-  static String _visibleUrl(String value) {
+  static String _visibleUrl(String? value) {
     value ??= '';
 
     const ignoredPrefix = 'https://';

@@ -21,9 +21,6 @@ Widget wrapWebBrowser(
   WebBrowserController controller,
   Widget widget,
 ) {
-  assert(webBrowser != null);
-  assert(controller != null);
-  assert(widget != null);
   final columnChildren = <Widget>[];
 
   // Top bar
@@ -48,8 +45,8 @@ Widget wrapWebBrowser(
   }
 
   Widget result = Column(
-    children: columnChildren,
     mainAxisSize: MainAxisSize.max,
+    children: columnChildren,
   );
 
   // Inherited

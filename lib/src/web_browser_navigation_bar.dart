@@ -21,15 +21,15 @@ class WebBrowserNavigationBar extends StatefulWidget {
   /// Back button icon. Default is [Icons.arrow_back].
   ///
   /// If the value is null, back button is not shown.
-  final Widget backButton;
+  final Widget? backButton;
 
   /// Forward button icon. Default is [Icons.arrow_forward].
   ///
   /// If the value is null, forward button is not shown.
-  final Widget forwardButton;
+  final Widget? forwardButton;
 
   const WebBrowserNavigationBar({
-    Key key,
+    Key? key,
     this.backButton = const WebBrowserBackButton(),
     this.forwardButton = const WebBrowserForwardButton(),
   }) : super(key: key);
@@ -43,8 +43,6 @@ class WebBrowserNavigationBar extends StatefulWidget {
 class _WebBrowserNavigationBarState extends State<WebBrowserNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    final controller = WebBrowserController.of(context);
-    assert(controller != null);
     final rowChildren = <Widget>[];
     if (widget.backButton != null) {
       rowChildren.add(Padding(

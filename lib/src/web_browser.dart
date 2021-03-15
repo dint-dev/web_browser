@@ -15,7 +15,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart' hide Element;
-import 'package:meta/meta.dart';
 import 'package:web_browser/web_browser.dart';
 
 import 'web_browser_impl_default.dart'
@@ -84,7 +83,7 @@ class WebBrowser extends StatefulWidget {
   final WebBrowserIFrameSettings iframeSettings;
 
   /// Specifies UI elements for interacting with the browser.
-  final WebBrowserInteractionSettings interactionSettings;
+  final WebBrowserInteractionSettings? interactionSettings;
 
   /// Whether debugging mode is enabled. Default is false.
   /// Only supported in Android and iOS.
@@ -100,19 +99,19 @@ class WebBrowser extends StatefulWidget {
   final bool javascriptEnabled;
 
   /// Called when the web browser is ready.
-  final void Function(WebBrowserController controller) onCreated;
+  final void Function(WebBrowserController? controller)? onCreated;
 
   /// Called when an error occurs.
-  final void Function(WebResourceError error) onError;
+  final void Function(WebResourceError error)? onError;
 
   /// User-agent string. Default is undefined.
   /// Only supported in Android and iOS.
   /// Ignored in other platforms.
-  final String userAgent;
+  final String? userAgent;
 
   const WebBrowser({
-    Key key,
-    @required this.initialUrl,
+    Key? key,
+    required this.initialUrl,
     this.iframeSettings = const WebBrowserIFrameSettings(),
     this.interactionSettings = const WebBrowserInteractionSettings(),
     this.debuggingEnabled = false,
@@ -121,12 +120,7 @@ class WebBrowser extends StatefulWidget {
     this.onCreated,
     this.onError,
     this.userAgent,
-  })  : assert(initialUrl != null),
-        assert(iframeSettings != null),
-        assert(debuggingEnabled != null),
-        assert(gestureRecognizers != null),
-        assert(javascriptEnabled != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

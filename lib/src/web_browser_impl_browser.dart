@@ -29,8 +29,8 @@ enum AutoMediaPlaybackPolicy {
 class CookieManager {}
 
 class WebBrowserState extends State<WebBrowser> {
-  Widget _builtWidget;
-  html.IFrameElement _element;
+  Widget? _builtWidget;
+  html.IFrameElement? _element;
   bool _didUpdate = true;
 
   @override
@@ -38,7 +38,7 @@ class WebBrowserState extends State<WebBrowser> {
     if (_builtWidget == null) {
       // Construct iframe
       _element = html.IFrameElement();
-      _element.style.backgroundColor = 'white';
+      _element!.style.backgroundColor = 'white';
 
       // Construct controller
       final controller = _WebBrowserController(_element);
@@ -48,10 +48,10 @@ class WebBrowserState extends State<WebBrowser> {
         context,
         widget,
         controller,
-        WebNode(node: _element),
+        WebNode(node: _element!),
       );
 
-      final onCreated = widget.onCreated;
+      final void Function(WebBrowserController)? onCreated = widget.onCreated;
       if (onCreated != null) {
         scheduleMicrotask(() {
           onCreated(_WebBrowserController(_element));
@@ -60,14 +60,14 @@ class WebBrowserState extends State<WebBrowser> {
     }
     if (_didUpdate) {
       _didUpdate = false;
-      final element = _element;
+      final element = _element!;
       element.src = widget.initialUrl;
-      widget.iframeSettings?.applyToIFrameElement(element);
+      widget.iframeSettings.applyToIFrameElement(element);
       final size = MediaQuery.of(context).size;
       element.height ??= '${size.height.toInt() - 100}';
       element.width ??= '${size.width.toInt()}';
     }
-    return _builtWidget;
+    return _builtWidget!;
   }
 
   @override
@@ -85,11 +85,12 @@ class WebBrowserState extends State<WebBrowser> {
 }
 
 class WebResourceError {
-  final WebResourceErrorType errorType;
+  final WebResourceErrorType? errorType;
   WebResourceError({this.errorType});
 }
 
-enum WebResourceErrorType {  /// User authentication failed on server.
+enum WebResourceErrorType {
+  /// User authentication failed on server.
   authentication,
   badUrl,
   connect,
@@ -113,13 +114,13 @@ enum WebResourceErrorType {  /// User authentication failed on server.
 }
 
 class _WebBrowserController extends WebBrowserController {
-  final html.IFrameElement _element;
+  final html.IFrameElement? _element;
   final _webNavigationEventController =
       StreamController<WebBrowserNavigationEvent>.broadcast();
-  String _url;
+  String? _url;
 
   _WebBrowserController(this._element) {
-    _url = _element.src;
+    _url = _element!.src;
   }
 
   @override
@@ -127,40 +128,40 @@ class _WebBrowserController extends WebBrowserController {
       _webNavigationEventController.stream;
 
   @override
-  Future<String> currentUrl() async {
+  Future<String?> currentUrl() async {
     return _url;
   }
 
   @override
   Future<void> evaluateJavascript(String javascriptString) async {
-    final window = _element.contentWindow as js.JsObject;
+    final window = _element!.contentWindow as js.JsObject;
     window.callMethod('eval', [javascriptString]);
   }
 
   @override
   Future<void> goBack() async {
-    _element.contentWindow.history.back();
+    _element!.contentWindow!.history.back();
   }
 
   @override
   Future<void> goForward() async {
-    _element.contentWindow.history.forward();
+    _element!.contentWindow!.history.forward();
   }
 
   @override
-  Future<void> loadUrl(String url, {Map<String, String> headers}) async {
-    _element.src = url;
+  Future<void> loadUrl(String url, {Map<String, String>? headers}) async {
+    _element!.src = url;
     _url = url;
     _webNavigationEventController.add(WebBrowserNavigationEvent(this, url));
   }
 
   @override
   Future<void> postMessage(dynamic message, String targetOrigin) async {
-    _element.contentWindow.postMessage(message, targetOrigin);
+    _element!.contentWindow!.postMessage(message, targetOrigin);
   }
 
   @override
   Future<void> reload() async {
-    _element?.contentWindow?.history?.go(0);
+    _element?.contentWindow!.history.go(0);
   }
 }

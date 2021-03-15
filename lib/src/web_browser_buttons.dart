@@ -58,7 +58,7 @@ class WebBrowserForwardButton extends StatelessWidget {
 
 class WebBrowserShareButton extends StatelessWidget {
   final IconData iconData;
-  final FutureOr<void> Function(WebBrowserController controller, String url)
+  final FutureOr<void> Function(WebBrowserController controller, String? url)?
       onShare;
 
   const WebBrowserShareButton({
@@ -74,10 +74,10 @@ class WebBrowserShareButton extends StatelessWidget {
         final controller = WebBrowserController.of(context);
         final url = await controller.currentUrl();
         if (onShare != null) {
-          onShare(controller, url);
+          onShare!(controller, url);
           return;
         }
-        await shareUrl(context, url);
+        shareUrl(context, url!);
       },
     );
   }
