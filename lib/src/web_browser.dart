@@ -109,6 +109,7 @@ class WebBrowser extends StatefulWidget {
   /// Ignored in other platforms.
   final String? userAgent;
 
+  final void Function(String url)? onPageFinished;
   const WebBrowser({
     Key? key,
     required this.initialUrl,
@@ -120,6 +121,7 @@ class WebBrowser extends StatefulWidget {
     this.onCreated,
     this.onError,
     this.userAgent,
+    this.onPageFinished,
   }) : super(key: key);
 
   @override

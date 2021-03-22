@@ -76,7 +76,8 @@ class WebBrowserState extends State<WebBrowser> {
         widget.iframeSettings != oldWidget.iframeSettings ||
         widget.interactionSettings != oldWidget.interactionSettings ||
         !identical(widget.onCreated, oldWidget.onCreated) ||
-        !identical(widget.onError, oldWidget.onError))) {
+        !identical(widget.onError, oldWidget.onError) ||
+        !identical(widget.onPageFinished, oldWidget.onPageFinished))) {
       // Invalidate cached widget
       _didUpdate = true;
     }

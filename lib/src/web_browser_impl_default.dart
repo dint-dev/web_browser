@@ -55,6 +55,7 @@ class WebBrowserState extends State<WebBrowser> {
           }
         },
         onWebResourceError: widget.onError,
+        onPageFinished: widget.onPageFinished,
         navigationDelegate: (request) {
           if (widget.interactionSettings == null && request.isForMainFrame) {
             final parsedUrl = Uri.parse(request.url);
@@ -88,7 +89,8 @@ class WebBrowserState extends State<WebBrowser> {
         widget.interactionSettings != oldWidget.interactionSettings ||
         widget.javascriptEnabled != oldWidget.javascriptEnabled ||
         !identical(widget.onCreated, oldWidget.onCreated) ||
-        !identical(widget.onError, oldWidget.onError)) {
+        !identical(widget.onError, oldWidget.onError) ||
+        !identical(widget.onPageFinished, oldWidget.onPageFinished)) {
       _builtWidget = null;
     }
     super.didUpdateWidget(oldWidget);
