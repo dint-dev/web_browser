@@ -16,6 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart' hide Element;
 import 'package:web_browser/web_browser.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'web_browser_impl_default.dart'
     if (dart.library.html) 'web_browser_impl_browser.dart' as impl;
@@ -109,7 +110,14 @@ class WebBrowser extends StatefulWidget {
   /// Ignored in other platforms.
   final String? userAgent;
 
+  /// Same implementation as onPageFinished in webview_flutter
   final void Function(String url)? onPageFinished;
+
+  /// Detect if Url has change every navigation.
+  final void Function(NavigationRequest request)? onUrlChange;
+
+  /// Your redirect url. Usually the success url to be pop'd.
+  final String? redirectUrl;
   const WebBrowser({
     Key? key,
     required this.initialUrl,
@@ -122,6 +130,8 @@ class WebBrowser extends StatefulWidget {
     this.onError,
     this.userAgent,
     this.onPageFinished,
+    this.onUrlChange,
+    this.redirectUrl = '',
   }) : super(key: key);
 
   @override

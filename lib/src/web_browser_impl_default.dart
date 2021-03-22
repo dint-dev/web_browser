@@ -68,6 +68,10 @@ class WebBrowserState extends State<WebBrowser> {
           if (request.isForMainFrame) {
             _controller!._dispatchNavigation(request.url);
           }
+          if (request.url == widget.redirectUrl) {
+            widget.onUrlChange?.call(request);
+            return web_view.NavigationDecision.prevent;
+          }
           return web_view.NavigationDecision.navigate;
         },
       );
