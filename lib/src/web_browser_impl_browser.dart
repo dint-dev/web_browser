@@ -39,6 +39,7 @@ class WebBrowserState extends State<WebBrowser> {
       // Construct iframe
       _element = html.IFrameElement();
       _element!.style.backgroundColor = 'white';
+      _element!.style.border = 'none';
 
       // Construct controller
       final controller = _WebBrowserController(_element);
