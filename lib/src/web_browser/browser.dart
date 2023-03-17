@@ -57,21 +57,30 @@ class Browser extends StatefulWidget {
   /// Widget above the browser.
   final Widget? topBar;
 
+  /// Enables you to replace the browser content with any Flutter widget for
+  /// specific URLs.
+  ///
+  /// If null, the normal behavior is not changed.
   final Widget Function(
     BuildContext context,
     BrowserController controller,
     Widget webView,
   )? contentBuilder;
 
+  /// Enables you to replace the default error displaying function.
+  ///
+  /// The default is [defaultOnError].
   final Widget Function(BuildContext context, BrowserController controller,
       WebResourceError error) onError;
 
   /// Widget below the browser.
   final Widget? bottomBar;
 
-  /// Callback when user presses share button.
+  /// Callback when user presses a "share" button.
   ///
-  /// If null, no share button is shown.
+  /// If null, no share button should be shown.
+  ///
+  /// The default is [defaultOnShare].
   final void Function(BuildContext context, BrowserController controller)?
       onShare;
 
@@ -148,14 +157,12 @@ class Browser extends StatefulWidget {
 
 /// State of [Browser].
 class BrowserState extends State<Browser> {
+  /// [BrowserController] of this widget.
   late BrowserController controller;
 
   final _webViewWidgetKey = GlobalKey();
-
   Object _stateKey = Object();
-
   bool _isBottomShareDialogOpen = false;
-
   bool get isBottomShareDialogOpen => _isBottomShareDialogOpen;
 
   set isBottomShareDialogOpen(bool newValue) {

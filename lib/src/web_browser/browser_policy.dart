@@ -37,12 +37,18 @@
 /// }
 /// ```
 class BrowserPolicy {
+  /// Allowed domains.
+  ///
+  /// ## Example
+  ///
+  /// See documentation for the class [BrowserPolicy].
   final Set<String> allowedDomains;
 
   const BrowserPolicy({
     required this.allowedDomains,
   });
 
+  /// Tells whether the URI is allowed.
   bool isUriAllowed(Uri uri) {
     final host = uri.host;
     if (host.isEmpty) {

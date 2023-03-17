@@ -59,12 +59,25 @@ class BrowserController extends ChangeNotifier {
   /// If this is less than [_globalStateVersion], we need to clear cache.
   int _stateVersion = _globalStateVersion;
 
+  /// Constructs a new browser controller.
+  ///
+  /// Optional parameter [uriString] is the initial URI.
+  ///
+  /// Optional parameter [userAgent] is value for the HTTP header "User-Agent".
+  /// The default is null, which means that no user agent should be sent.
+  ///
+  /// Optional parameter [isZoomEnable] specifies whether zooming into the
+  /// content should allowed.
+  ///
+  /// Optional parameter [webViewController] is the underlying
+  /// [WebViewController].
+  ///
   BrowserController({
     String uriString = '',
     String? userAgent,
+    bool isZoomEnabled = true,
     WebViewController? webViewController,
     this.webViewNavigationDelegate,
-    bool isZoomEnabled = true,
   })  : _uriString = uriString,
         _userAgent = userAgent,
         _webViewController = webViewController ?? WebViewController() {
