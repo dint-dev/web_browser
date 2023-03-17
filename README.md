@@ -2,7 +2,7 @@
 [![Github Actions CI](https://github.com/dint-dev/web_browser/workflows/Dart%20CI/badge.svg)](https://github.com/dint-dev/web_browser/actions?query=workflow%3A%22Dart+CI%22)
 
 # Overview
-[Browser](https://pub.dev/documentation/web_browser/latest/web_browser/WebBrowser-class.html) is
+[Browser](https://pub.dev/documentation/web_browser/latest/web_browser/Browser-class.html) is
 a Flutter widget for browsing websites.
 * Works in Android, iOS, and browsers. Various cross-platform differences are handled correctly by
   the package so you don't need to deal with details of the underlying
@@ -25,7 +25,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  web_browser: ^0.7.0
+  web_browser: ^0.7.2
 ```
 
 ## 2.Display web browser
@@ -47,14 +47,15 @@ void main() {
 ```
 
 # Manual
-## Designs available in this package
-The package contains two designs:
-* [web_browser.cupertino](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/web_browser.cupertino-library.html)
-* [web_browser.material](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/web_browser.material-library.html)
-
+## Default designs
+The package contains two designs, Cupertino ([web_browser.cupertino](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/web_browser.cupertino-library.html))
+and Material ([web_browser.material](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/web_browser.material-library.html)).
 By default, the package chooses a Cupertino or Material design based on whether the app is _CupertinoApp_ or _MaterialApp_.
+You can override the defaults by using relevant parameters of
+[Browser()](https://pub.dev/documentation/web_browser/latest/web_browser/Browser/Browser.html)
+constructor.
 
-The navigation buttons look like this:
+The Cupertino and Material navigation bars look like this:
 
 ![](screenshots/cupertino.png)
 
@@ -87,7 +88,8 @@ final browserLocalizationsList = [
 ];
 ```
 
-## Setting user agent
+## Setting various parameters
+You can give various parameters to [Browser](https://pub.dev/documentation/web_browser/latest/web_browser/Browser-class.html):
 ```dart
 import 'package:flutter/material.dart';
 import 'package:web_browser/web_browser.dart';
@@ -99,12 +101,35 @@ void main() {
         child: Browser(
           initialUriString: 'https://flutter.dev/',
           controller: BrowserController(
+            // "User-Agent" HTTP header.
             userAgent: 'Your user agent',
+            
+            // Can user zoom into the content? Default is true.
+            isZoomingEnabled: false,
           )
         ),
       ),
     ),
   ));
+}
+```
+
+## Cache clearing
+For privacy reasons, the package clears persistent state every now and then. This includes:
+  * Cookies
+  * Caches
+  * Local storage
+
+You can disable this behavior in your `main` function:
+```dart
+import 'package:web_browser/web_browser.dart';
+
+void main() {
+  // Disables clearing when the app is started
+  BrowserController.resetGlobalStateAtStart = false;
+  
+  // Disables expiration.
+  BrowserController.globalStateExpiration = null;
 }
 ```
 

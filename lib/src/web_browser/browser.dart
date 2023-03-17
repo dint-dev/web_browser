@@ -36,7 +36,7 @@ import '../../web_browser.dart';
 ///       home: Scaffold(
 ///         body: SafeArea(
 ///           child: Browser(
-///             initialUriString: 'https://dart.dev/',
+///             initialUriString: 'https://flutter.dev/',
 ///           ),
 ///         ),
 ///       ),
@@ -84,6 +84,25 @@ class Browser extends StatefulWidget {
   final void Function(BuildContext context, BrowserController controller)?
       onShare;
 
+  /// Constructs a browser widget.
+  ///
+  /// Optional parameter [policy] specifies the allowed websites.
+  ///
+  /// Optional parameter [topBar] is the bar above the web content. If null,
+  /// no bar will be displayed.
+  ///
+  /// If you want to replace some web pages with Flutter widgets, you can use
+  /// [contentBuilder].
+  ///
+  /// Optional parameter [bottomBar] is the bar below the web content. If null,
+  /// no bar will be displayed.
+  ///
+  /// By default, a platform-specific URL sharing dialog is shown when the
+  /// "share" button is pressed. You can override the behavior with [onShare].
+  /// If [onShare] is null, no "share" button will be displayed.
+  ///
+  /// By default, the browser displays loading errors with its own widget. You
+  /// can override the behavior with [onError].
   const Browser({
     Key? key,
     required this.initialUriString,
@@ -101,7 +120,9 @@ class Browser extends StatefulWidget {
     return BrowserState();
   }
 
-  /// Default callback for [onError].
+  /// Default value of [onError].
+  ///
+  /// This function displays a web page loading error using Flutter widgets.
   static Widget defaultOnError(BuildContext context,
       BrowserController controller, WebResourceError error) {
     final localizations = Localizations.of<BrowserLocalizations>(
@@ -129,7 +150,9 @@ class Browser extends StatefulWidget {
     );
   }
 
-  /// Default callback for [onShare].
+  /// Default value of [onShare].
+  ///
+  /// This function displays a platform-specific URL sharing dialog.
   static void defaultOnShare(
       BuildContext context, BrowserController controller) {
     if (kIsWeb) {

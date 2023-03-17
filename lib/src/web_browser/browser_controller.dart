@@ -22,20 +22,25 @@ import '../../web_browser.dart';
 
 /// Controls [Browser].
 class BrowserController extends ChangeNotifier {
-  /// How often to cookies and other caches are cleared by default (for privacy
-  /// reasons).
+  /// How often [BrowserController.clearEverything] should be called.
   ///
   /// If null, the cache is never cleaned. The default is currently 1 day, but
   /// we could make it shorter or longer in a future version.
   ///
   /// This is a global variable because the underlying platform APIs don't have
   /// good support for per-browser clearing.
+  ///
+  /// See also [resetGlobalStateAtStart].
   static Duration? globalStateExpiration = const Duration(days: 1);
   static final _globalStateExpirationStopwatch = Stopwatch()..start();
-  static bool resetGlobalStateAtStart = true;
-  static int _globalStateVersion = 0;
-  static bool get _isAndroid => !kIsWeb && Platform.isAndroid;
 
+  /// Whether [BrowserController.clearEverything] is called after starting the
+  /// app.
+  static bool resetGlobalStateAtStart = true;
+
+  static int _globalStateVersion = 0;
+  static Future<void>? _stateClearingFuture;
+  static bool get _isAndroid => !kIsWeb && Platform.isAndroid;
   final _onPageStarted = StreamController<String>.broadcast();
   final _onPageFinished = StreamController<String>.broadcast();
   bool _isLoading = false;
@@ -44,6 +49,7 @@ class BrowserController extends ChangeNotifier {
   Uri? _uri;
   bool _canGoBack = true;
   bool _canGoForward = true;
+
   final WebViewController _webViewController;
 
   /// Optional delegate for listening to navigation events.
@@ -66,7 +72,7 @@ class BrowserController extends ChangeNotifier {
   /// Optional parameter [userAgent] is value for the HTTP header "User-Agent".
   /// The default is null, which means that no user agent should be sent.
   ///
-  /// Optional parameter [isZoomEnable] specifies whether zooming into the
+  /// Optional parameter [isZoomEnabled] specifies whether zooming into the
   /// content should allowed.
   ///
   /// Optional parameter [webViewController] is the underlying
@@ -307,7 +313,7 @@ class BrowserController extends ChangeNotifier {
   /// Checks whether the cache should be cleared.
   Future<void> _maybeClearState() async {
     if (_globalStateVersion == 0 && resetGlobalStateAtStart) {
-      clearEverything();
+      await clearEverything();
     } else {
       final stopwatch = _globalStateExpirationStopwatch;
       final expiration = globalStateExpiration;
@@ -341,24 +347,31 @@ class BrowserController extends ChangeNotifier {
   /// Clears all persistent state, including cookies, caches, and local
   /// storage.
   static Future<void> clearEverything() async {
-    // Increment state so caches will be cleared
-    _globalStateVersion++;
+    // Combine multiple calls into one.
+    return _stateClearingFuture ??= () async {
+      try {
+        // Increment state so caches will be cleared
+        _globalStateVersion++;
 
-    // Reset stopwatch
-    _globalStateExpirationStopwatch.reset();
+        // Reset stopwatch
+        _globalStateExpirationStopwatch.reset();
 
-    // Clear cookies in all web view instances.
-    try {
-      final instance = WebViewPlatform.instance;
-      if (instance != null) {
-        final cookieManager = instance.createPlatformCookieManager(
-          const PlatformWebViewCookieManagerCreationParams(),
-        );
-        await cookieManager.clearCookies();
+        // Clear cookies in all web view instances.
+        try {
+          final instance = WebViewPlatform.instance;
+          if (instance != null) {
+            final cookieManager = instance.createPlatformCookieManager(
+              const PlatformWebViewCookieManagerCreationParams(),
+            );
+            await cookieManager.clearCookies();
+          }
+        } catch (error, stackTrace) {
+          assert(false, '$error\n\n$stackTrace');
+          // Ignore error
+        }
+      } finally {
+        _stateClearingFuture = null;
       }
-    } catch (error, stackTrace) {
-      assert(false, '$error\n\n$stackTrace');
-      // Ignore error
-    }
+    }();
   }
 }

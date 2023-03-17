@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+## 0.7.2
+* A small bug fix
+* Improves documentation
+
+>>>>>>> 94ace7b (Improves documentation.)
 ## 0.7.1
 * Improves documentation
 
