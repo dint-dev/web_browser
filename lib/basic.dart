@@ -20,3 +20,4 @@ library web_browser.basic;
 
 export 'src/basic/basic_browser_address_field.dart';
 export 'src/basic/basic_browser_bottom_dialog.dart';
+export 'src/basic/basic_browser_error_widget.dart';

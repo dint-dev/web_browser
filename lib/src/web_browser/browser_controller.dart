@@ -83,13 +83,18 @@ class BrowserController extends ChangeNotifier {
           if (!kIsWeb) {
             try {
               if (_isAndroid) {
-                // Do other platforms than Android give "canGoBlack" data?
                 _webViewController.canGoBack().then((value) {
-                  _canGoBack = value;
+                  if (value != _canGoBack) {
+                    _canGoBack = value;
+                    notifyListeners();
+                  }
                 }, onError: (error) {});
               }
               _webViewController.canGoForward().then((value) {
-                _canGoForward = value;
+                if (value != _canGoForward) {
+                  _canGoForward = value;
+                  notifyListeners();
+                }
               }, onError: (error) {});
             } catch (error) {
               // Ignore error
@@ -111,9 +116,11 @@ class BrowserController extends ChangeNotifier {
           webViewNavigationDelegate?.onPageFinished?.call(uri);
         },
         onWebResourceError: (error) {
-          _error = error;
-          _isLoading = false;
-          notifyListeners();
+          if (error.isForMainFrame ?? true) {
+            _error = error;
+            _isLoading = false;
+            notifyListeners();
+          }
           webViewNavigationDelegate?.onWebResourceError?.call(error);
         },
       ));

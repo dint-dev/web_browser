@@ -1,3 +1,6 @@
+## 0.6.1
+* Small fixes.
+
 ## 0.6.0
 * Many improvements.
 

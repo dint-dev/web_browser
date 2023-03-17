@@ -38,18 +38,7 @@ void main() {
     home: Scaffold(
       body: SafeArea(
         child: WebBrowser(
-          initialUrl: 'https://flutter.dev/',
-          policy: BrowserPolicy(
-            allowedDomains: {
-              // Allow navigation to "flutter.dev" and any subdomain.
-              // Other websites will be opened in the user's browser.
-              '**.flutter.dev',
-
-              // And some other websites...
-              '**.dart.dev',
-              '**.youtube.com',
-            },
-          )
+          initialUriString: 'https://flutter.dev/',
         ),
       ),
     ),
@@ -58,6 +47,16 @@ void main() {
 ```
 
 # Designs available in this package
+### Cupertino design
+* [CupertinoBrowserTopBar](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserTopBar-class.html)
+* [CupertinoBrowserBottomBar](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserBottomBar-class.html)
+  with:
+    * [CupertinoBrowserBackButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserBackButton-class.html)
+    * [CupertinoBrowserForwardButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserForwardButton-class.html)
+    * [CupertinoBrowserRefreshButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserRefreshButton-class.html)
+
+<img src="screenshots/cupertino.png">
+
 ### Material design
 * [MaterialBrowserTopBar](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserTopBar-class.html)
 * [MaterialBrowserBottomBar](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserBottomBar-class.html)
@@ -66,13 +65,7 @@ void main() {
     * [MaterialBrowserForwardButton](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserForwardButton-class.html)
     * [MaterialBrowserRefreshButton](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserRefreshButton-class.html)
 
-### Cupertino design
-* [CupertinoBrowserTopBar](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserTopBar-class.html)
-* [CupertinoBrowserBottomBar](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserBottomBar-class.html)
-  with:
-  * [CupertinoBrowserBackButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserBackButton-class.html)
-  * [CupertinoBrowserForwardButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserForwardButton-class.html)
-  * [CupertinoBrowserRefreshButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserRefreshButton-class.html)
+<img src="screenshots/material.png">
 
 ## Auto-design (default)
 By default, the package chooses Material or Cupertino design based on whether the app is

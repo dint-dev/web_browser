@@ -16,12 +16,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart' as share_plus;
-import 'package:web_browser/src/basic/basic_browser_error_widget.dart';
-import 'package:web_browser/src/web_browser/browser_controller.dart';
-import 'package:web_browser/src/web_browser/browser_policy.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../auto.dart';
+import '../../basic.dart';
+import '../../web_browser.dart';
 
 /// A web browser widget with navigation buttons and other features.
 ///
@@ -96,7 +95,12 @@ class Browser extends StatefulWidget {
   /// Default callback for [onError].
   static Widget defaultOnError(BuildContext context,
       BrowserController controller, WebResourceError error) {
-    const label = Text('Try again');
+    final localizations = Localizations.of<BrowserLocalizations>(
+          context,
+          BrowserLocalizations,
+        ) ??
+        const BrowserLocalizations();
+    final label = Text(localizations.tryAgain);
     void onPressed() {
       Browser.of(context).controller.refresh();
     }

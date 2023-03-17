@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:web_browser/src/web_browser/browser_localizations.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// A widget that may be used to replace [WebViewWidget] when an error occurs.
@@ -20,9 +21,14 @@ class BasicBrowserErrorWidget extends StatelessWidget {
     required WebResourceError error,
     required Widget? refreshButton,
   }) {
+    final localizations = Localizations.of<BrowserLocalizations>(
+          context,
+          BrowserLocalizations,
+        ) ??
+        const BrowserLocalizations();
     return BasicBrowserErrorWidget(
-      title: const Text(
-        'Could not reach the website :(',
+      title: Text(
+        localizations.couldNotReach,
         textAlign: TextAlign.center,
       ),
       body: Column(

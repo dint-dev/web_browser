@@ -21,13 +21,17 @@ class BrowserLocalizations {
 
   final String forward;
   final String refresh;
-  final String copy;
+  final String share;
+  final String couldNotReach;
+  final String tryAgain;
 
   const BrowserLocalizations({
     this.back = 'Back',
     this.forward = 'Forward',
-    this.copy = 'Copy',
     this.refresh = 'Refresh',
+    this.share = 'Share',
+    this.couldNotReach = 'Could not reach the website.',
+    this.tryAgain = 'Try again.',
   });
 
   /// Constructs [LocalizationsDelegate] for the localization.
