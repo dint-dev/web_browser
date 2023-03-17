@@ -1,8 +1,8 @@
 name: web_browser
-version: 0.7.2
+version: 0.7.3
 description:
-  A cross-platform Flutter widget for displaying websites and other web content. Has navigation
-  Cupertino/Material buttons and takes care of complex platform differences.
+  A web browser widget. Unlike webview_flutter, comes with cross-platform navigation and URL sharing
+  widgets. Works in Android, iOS, browsers, and other platforms.
 homepage: https://github.com/dint-dev/web_browser
 
 environment:

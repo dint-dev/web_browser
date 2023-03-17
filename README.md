@@ -2,16 +2,19 @@
 [![Github Actions CI](https://github.com/dint-dev/web_browser/workflows/Dart%20CI/badge.svg)](https://github.com/dint-dev/web_browser/actions?query=workflow%3A%22Dart+CI%22)
 
 # Overview
-[Browser](https://pub.dev/documentation/web_browser/latest/web_browser/Browser-class.html) is
-a Flutter widget for browsing websites.
-* Works in Android, iOS, and browsers. Various cross-platform differences are handled correctly by
-  the package so you don't need to deal with details of the underlying
-  [webview_flutter](https://pub.dev/packages/webview_flutter). You can still access 
-* Has a customizable top bar that displays the domain so that end-users have some protection against
-  phishing websites.
-* Has customizable bottom bar with buttons for "back", "forward", "refresh", and URL sharing.
-* Displays website loading error messages using Flutter widgets. The errors look nicer and are
-  easier to decipher by non-technical users.
+The package gives you [Browser](https://pub.dev/documentation/web_browser/latest/web_browser/Browser-class.html),
+a Flutter widget for displaying web pages.
+
+The package is built on top of [webview_flutter](https://pub.dev/packages/webview_flutter) and it
+adds navigation widgets that:
+  * Display the domain.
+  * Allow user to tap "back", "forward", "refresh", or share the URL using a native dialog of each
+    platform.
+  * Display website loading error messages in a visually pleasant and easy-to-understand way.
+
+_Browser_ has been tested in Android, iOS, and browsers. By adding relevant "webview_flutter"
+plugin dependencies to your "pubspec.yaml", you can use this package in Windows, Mac OS X, and
+Linux too.
 
 Licensed under the [Apache License 2.0](LICENSE).
 
@@ -25,7 +28,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  web_browser: ^0.7.2
+  web_browser: ^0.7.3
 ```
 
 ## 2.Display web browser
