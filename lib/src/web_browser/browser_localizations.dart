@@ -16,6 +16,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:web_browser/src/web_browser/browser.dart';
 
 /// Localizations for [Browser].
+///
+/// ## Example
+/// ```dart
+/// void main() {
+///   runApp(MaterialApp(
+///     localizations: [
+///       ...browserLocalizationDelegates,
+///       // ...
+///     ],
+///     // ...
+///   ));
+/// }
+///
+///
+/// final browserLocalizationDelegates = [
+///   // Spanish localization
+///   BrowserLocalizationDelegate.newDelegate(
+///     Locale('es'),
+///     BrowserLocalizations(
+///       // ...
+///     ),
+///   ),
+/// ];
+/// ```
 class BrowserLocalizations {
   final String back;
 

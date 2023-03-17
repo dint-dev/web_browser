@@ -3,22 +3,20 @@
 
 # Overview
 [Browser](https://pub.dev/documentation/web_browser/latest/web_browser/WebBrowser-class.html) is
-a Flutter widget for browsing websites in Android, iOS, and browsers. It's provides all sorts of
-functionality on top of the standard [webview_flutter](https://pub.dev/packages/webview_flutter)
-(by Flutter team), including:
-  * Back / forward / refresh buttons
-  * Address displaying bar.
-  * Various other UI features.
-  * Frees you from thinking various cross-platform differences and security issues. For example,
-    we have paid attention to how to make users notice phishing attack URLs. Unless the app is
-    running inside browser, we show suffix of the current domain above the content.
+a Flutter widget for browsing websites.
+* Works in Android, iOS, and browsers. Various cross-platform differences are handled correctly by
+  the package so you don't need to deal with details of
+  [webview_flutter](https://pub.dev/packages/webview_flutter).
+* Has a customizable top bar that displays URI. To protect end-users against phishing attacks, we
+  show the domain clearly and nothing else.
+* Has customizable bottom bar with buttons for "back", "forward", "refresh", and URL sharing.
 
 Licensed under the [Apache License 2.0](LICENSE).
 
 ## Links
-  * [Github project](https://github.com/dint-dev/web_browser)
-  * [Issue tracker](https://github.com/dint-dev/web_browser/issues)
-  * [API Reference](https://pub.dev/documentation/web_browser/latest/index.html)
+* [Github project](https://github.com/dint-dev/web_browser)
+* [Issue tracker](https://github.com/dint-dev/web_browser/issues)
+* [API Reference](https://pub.dev/documentation/web_browser/latest/index.html)
 
 # Setting up
 ## 1.Setup
@@ -46,72 +44,15 @@ void main() {
 }
 ```
 
-# Designs available in this package
-### Cupertino design
-* [CupertinoBrowserTopBar](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserTopBar-class.html)
-* [CupertinoBrowserBottomBar](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserBottomBar-class.html)
-  with:
-    * [CupertinoBrowserBackButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserBackButton-class.html)
-    * [CupertinoBrowserForwardButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserForwardButton-class.html)
-    * [CupertinoBrowserRefreshButton](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/CupertinoBrowserRefreshButton-class.html)
+# Manual
+## Designs available in this package
+The package contains two designs:
+* [web_browser.cupertino](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/web_browser.cupertino-library.html)
+* [web_browser.material](https://pub.dev/documentation/web_browser/latest/web_browser.cupertino/web_browser.material-library.html)
 
-<img src="screenshots/cupertino.png">
+By default, the package chooses a Cupertino or Material design based on whether the app is _CupertinoApp_ or _MaterialApp_.
 
-### Material design
-* [MaterialBrowserTopBar](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserTopBar-class.html)
-* [MaterialBrowserBottomBar](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserBottomBar-class.html)
-  with:
-    * [MaterialBrowserBackButton](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserBackButton-class.html)
-    * [MaterialBrowserForwardButton](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserForwardButton-class.html)
-    * [MaterialBrowserRefreshButton](https://pub.dev/documentation/web_browser/latest/web_browser.material/MaterialBrowserRefreshButton-class.html)
+| <img src="screenshots/cupertino.png" height="200"> | <img src="screenshots/material.png" height="200"> |
 
-<img src="screenshots/material.png">
-
-## Auto-design (default)
-By default, the package chooses Material or Cupertino design based on whether the app is
-`CupertinoApp` or `MaterialApp`.
-
-# Customization
-## Top/bottom bars
-```dart
-import 'package:flutter/material.dart';
-import 'package:web_browser/material.dart';
-import 'package:web_browser/web_browser.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: Scaffold(
-      body: SafeArea(
-        child: WebBrowser(
-          topBar: MaterialBrowserTopBar(
-            addressField: MaterialBrowserAddressField(
-              trailingButtons: [
-                MyHomeButton(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ),
-  ));
-}
-```
-
-## BrowserController inside the widget subtree
-Widgets inside the top/bottom bars can use the following pattern:
-```dart
-class MyBackButton extends StatelessWidget {
-  const MyBackButton({super.key});
-  
-  @override
-  Widget build(BuildContext context) {
-    final controller = Browser.of(context).controller;
-    return MaterialButton(
-      // ...
-      onTap: () {
-        controller.goBack();
-      },
-    );
-  }
-}
-```
+## Localization
+Use [BrowserLocalizations](https://pub.dev/documentation/web_browser/latest/web_browser/BrowserLocalizations-class.html) to localize the widgets.
