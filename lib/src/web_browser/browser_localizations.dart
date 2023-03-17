@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:web_browser/src/web_browser/browser.dart';
 
@@ -22,7 +24,7 @@ import 'package:web_browser/src/web_browser/browser.dart';
 /// void main() {
 ///   runApp(MaterialApp(
 ///     localizations: [
-///       ...browserLocalizationDelegates,
+///       ...browserLocalizationsList,
 ///       // ...
 ///     ],
 ///     // ...
@@ -30,23 +32,34 @@ import 'package:web_browser/src/web_browser/browser.dart';
 /// }
 ///
 ///
-/// final browserLocalizationDelegates = [
+/// final browserLocalizationsList = [
 ///   // Spanish localization
-///   BrowserLocalizationDelegate.newDelegate(
-///     Locale('es'),
-///     BrowserLocalizations(
+///   BrowserLocalizations.forLocale(
+///     locale: Locale('es'),
+///     load: (locale) async => BrowserLocalizations(
+///       couldNotReach: 'No se pudo acceder al sitio web.',
 ///       // ...
 ///     ),
 ///   ),
 /// ];
 /// ```
 class BrowserLocalizations {
+  /// Tooltip for back button.
   final String back;
 
+  /// Tooltip for forward button.
   final String forward;
+
+  /// Tooltip for refresh button.
   final String refresh;
+
+  /// Tooltip for sharing button.
   final String share;
+
+  /// Text that is displayed when an error occurs.
   final String couldNotReach;
+
+  /// Text for a button displayed when an error occurs.
   final String tryAgain;
 
   const BrowserLocalizations({
@@ -58,30 +71,32 @@ class BrowserLocalizations {
     this.tryAgain = 'Try again.',
   });
 
-  /// Constructs [LocalizationsDelegate] for the localization.
-  static LocalizationsDelegate<BrowserLocalizations> newDelegate(
-      Locale locale, BrowserLocalizations localizations) {
-    return _BrowserLocalizationsDelegate(locale, localizations);
+  /// Constructs [LocalizationsDelegate] for the locale.
+  static LocalizationsDelegate<BrowserLocalizations> forLocale({
+    required Locale locale,
+    required FutureOr<BrowserLocalizations> Function(Locale locale) load,
+  }) {
+    return _BrowserLocalizationsDelegate(locale, load);
   }
 }
 
 class _BrowserLocalizationsDelegate
     extends LocalizationsDelegate<BrowserLocalizations> {
   final Locale locale;
-  final BrowserLocalizations localizations;
+  final FutureOr<BrowserLocalizations> Function(Locale locale) localizations;
 
   _BrowserLocalizationsDelegate(this.locale, this.localizations);
 
   @override
   bool isSupported(Locale locale) {
     return locale == this.locale ||
-        locale.languageCode == this.locale.languageCode &&
-            this.locale.countryCode == null;
+        (locale.languageCode == this.locale.languageCode &&
+            this.locale.countryCode == null);
   }
 
   @override
   Future<BrowserLocalizations> load(Locale locale) async {
-    return localizations;
+    return await localizations(locale);
   }
 
   @override

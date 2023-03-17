@@ -22,9 +22,21 @@ import '../../web_browser.dart';
 
 /// Controls [Browser].
 class BrowserController extends ChangeNotifier {
+  /// How often to cookies and other caches are cleared by default (for privacy
+  /// reasons).
+  ///
+  /// If null, the cache is never cleaned. The default is currently 1 day, but
+  /// we could make it shorter or longer in a future version.
+  ///
+  /// This is a global variable because the underlying platform APIs don't have
+  /// good support for per-browser clearing.
+  static Duration? globalStateExpiration = const Duration(days: 1);
+  static final _globalStateExpirationStopwatch = Stopwatch()..start();
+  static bool resetGlobalStateAtStart = true;
+  static int _globalStateVersion = 0;
   static bool get _isAndroid => !kIsWeb && Platform.isAndroid;
-  final _onPageStarted = StreamController<String>.broadcast();
 
+  final _onPageStarted = StreamController<String>.broadcast();
   final _onPageFinished = StreamController<String>.broadcast();
   bool _isLoading = false;
   String? _userAgent;
@@ -32,7 +44,6 @@ class BrowserController extends ChangeNotifier {
   Uri? _uri;
   bool _canGoBack = true;
   bool _canGoForward = true;
-
   final WebViewController _webViewController;
 
   /// Optional delegate for listening to navigation events.
@@ -42,19 +53,26 @@ class BrowserController extends ChangeNotifier {
   WebResourceError? _error;
 
   BrowserPolicy? policy;
+
   bool _isZoomEnabled = true;
+
+  /// If this is less than [_globalStateVersion], we need to clear cache.
+  int _stateVersion = _globalStateVersion;
 
   BrowserController({
     String uriString = '',
     String? userAgent,
     WebViewController? webViewController,
     this.webViewNavigationDelegate,
+    bool isZoomEnabled = true,
   })  : _uriString = uriString,
         _userAgent = userAgent,
         _webViewController = webViewController ?? WebViewController() {
+    _maybeClearState();
     try {
       _webViewController.setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) async {
+          await _maybeClearState();
           final result = await webViewNavigationDelegate?.onNavigationRequest
               ?.call(request);
           if (result != null && result == NavigationDecision.prevent) {
@@ -135,7 +153,8 @@ class BrowserController extends ChangeNotifier {
       // Ignore errors in browser
     }
     try {
-      _webViewController.enableZoom(true);
+      _isZoomEnabled = isZoomEnabled;
+      _webViewController.enableZoom(isZoomEnabled);
     } catch (error) {
       // Ignore error
     }
@@ -147,13 +166,18 @@ class BrowserController extends ChangeNotifier {
   /// Whether [goForward] may succeed.
   bool get canGoForward => !kIsWeb && _canGoForward;
 
+  /// Returns the current error (if any).
   WebResourceError? get error => _error;
 
+  /// Tells whether the controller is loading a page.
+  ///
+  /// This is ignored in browsers.
   bool get isLoading => _isLoading;
 
-  /// Whether real navigation events are received from the browser.
-  bool get isNavigationEventsReceivedFromBrowser => !kIsWeb;
+  /// Tells whether real navigation events are received.
+  bool get isNavigationEventsReceived => !kIsWeb;
 
+  /// Determines whether zooming is enabled.
   bool get isZoomEnabled => _isZoomEnabled;
 
   set isZoomEnabled(bool newValue) {
@@ -205,7 +229,7 @@ class BrowserController extends ChangeNotifier {
     _onPageFinished.close();
   }
 
-  /// Go back in the browser history.
+  /// Makes browser go back in the browser history.
   bool goBack({bool fixRedirectIssues = false}) {
     final result = canGoBack;
     try {
@@ -219,7 +243,7 @@ class BrowserController extends ChangeNotifier {
     return result;
   }
 
-  /// Go forward in the browser history.
+  /// Makes browser go forward in the browser history.
   bool goForward() {
     final result = canGoForward;
     try {
@@ -233,7 +257,7 @@ class BrowserController extends ChangeNotifier {
     return result;
   }
 
-  /// Go to the specified URI.
+  /// Makes browser go to the specified URI.
   ///
   /// If the URL is the same, does nothing.
   void goTo(String uri) {
@@ -267,10 +291,61 @@ class BrowserController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Checks whether the cache should be cleared.
+  Future<void> _maybeClearState() async {
+    if (_globalStateVersion == 0 && resetGlobalStateAtStart) {
+      clearEverything();
+    } else {
+      final stopwatch = _globalStateExpirationStopwatch;
+      final expiration = globalStateExpiration;
+      if (expiration != null &&
+          stopwatch.elapsedMilliseconds > expiration.inMilliseconds) {
+        await clearEverything();
+      }
+    }
+    if (_stateVersion < _globalStateVersion) {
+      _stateVersion = _globalStateVersion;
+      try {
+        _webViewController.clearLocalStorage();
+      } catch (e) {
+        // Ignore error
+      }
+      try {
+        _webViewController.clearCache();
+      } catch (e) {
+        // Ignore error
+      }
+    }
+  }
+
   void _maybeFakeNavigationEvents(String uri) {
-    if (!isNavigationEventsReceivedFromBrowser) {
+    if (!isNavigationEventsReceived) {
       _onPageStarted.add(uri);
       _onPageFinished.add(uri);
+    }
+  }
+
+  /// Clears all persistent state, including cookies, caches, and local
+  /// storage.
+  static Future<void> clearEverything() async {
+    // Increment state so caches will be cleared
+    _globalStateVersion++;
+
+    // Reset stopwatch
+    _globalStateExpirationStopwatch.reset();
+
+    // Clear cookies in all web view instances.
+    try {
+      final instance = WebViewPlatform.instance;
+      if (instance != null) {
+        final cookieManager = instance.createPlatformCookieManager(
+          const PlatformWebViewCookieManagerCreationParams(),
+        );
+        await cookieManager.clearCookies();
+      }
+    } catch (error, stackTrace) {
+      assert(false, '$error\n\n$stackTrace');
+      // Ignore error
     }
   }
 }

@@ -25,8 +25,8 @@
 ///   @override
 ///   Widget build(BuildContext context) {
 ///     return const Browser(
-///       security: BrowserSecurity(
-///         allowDomains: {
+///       policy: BrowserPolicy(
+///         allowedDomains: {
 ///           'example.com',
 ///           '*.github.com',
 ///           '**.google.com',

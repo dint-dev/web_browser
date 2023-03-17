@@ -1,3 +1,8 @@
+## 0.7.0
+* Allows cookies, caches, and local storage to be cleared with a static method in BrowserController.
+  By default, they are cleared when the app is started and when more than 24h is the from the last
+  clearing.
+
 ## 0.6.1
 * Small fixes.
 

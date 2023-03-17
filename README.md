@@ -5,11 +5,13 @@
 [Browser](https://pub.dev/documentation/web_browser/latest/web_browser/WebBrowser-class.html) is
 a Flutter widget for browsing websites.
 * Works in Android, iOS, and browsers. Various cross-platform differences are handled correctly by
-  the package so you don't need to deal with details of
-  [webview_flutter](https://pub.dev/packages/webview_flutter).
-* Has a customizable top bar that displays URI. To protect end-users against phishing attacks, we
-  show the domain clearly and nothing else.
+  the package so you don't need to deal with details of the underlying
+  [webview_flutter](https://pub.dev/packages/webview_flutter). You can still access 
+* Has a customizable top bar that displays the domain so that end-users have some protection against
+  phishing websites.
 * Has customizable bottom bar with buttons for "back", "forward", "refresh", and URL sharing.
+* Displays website loading error messages using Flutter widgets. The errors look nicer and are
+  easier to decipher by non-technical users.
 
 Licensed under the [Apache License 2.0](LICENSE).
 
@@ -23,7 +25,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  web_browser: ^0.6.0
+  web_browser: ^0.7.0
 ```
 
 ## 2.Display web browser
@@ -35,7 +37,7 @@ void main() {
   runApp(const MaterialApp(
     home: Scaffold(
       body: SafeArea(
-        child: WebBrowser(
+        child: Browser(
           initialUriString: 'https://flutter.dev/',
         ),
       ),
@@ -52,7 +54,56 @@ The package contains two designs:
 
 By default, the package chooses a Cupertino or Material design based on whether the app is _CupertinoApp_ or _MaterialApp_.
 
-| <img src="screenshots/cupertino.png" height="200"> | <img src="screenshots/material.png" height="200"> |
+| ![](screenshots/cupertino.png) | ![](screenshots/material.png) |
 
 ## Localization
-Use [BrowserLocalizations](https://pub.dev/documentation/web_browser/latest/web_browser/BrowserLocalizations-class.html) to localize the widgets.
+Use [BrowserLocalizations](https://pub.dev/documentation/web_browser/latest/web_browser/BrowserLocalizations-class.html)
+to localize the widgets.
+
+```dart
+void main() {
+  runApp(MaterialApp(
+    localizations: [
+      ...browserLocalizationsList,
+      // ...
+    ],
+    // ...
+  ));
+}
+
+final browserLocalizationsList = [
+  // Spanish localization
+  BrowserLocalizations.forLocale(
+    locale: Locale('es'),
+    load: (locale) async => BrowserLocalizations(
+      couldNotReach: 'No se pudo acceder al sitio web.',
+      // ...
+    ),
+  ),
+];
+```
+
+## Setting user agent
+```dart
+import 'package:flutter/material.dart';
+import 'package:web_browser/web_browser.dart';
+
+void main() {
+  runApp(const MaterialApp(
+    home: Scaffold(
+      body: SafeArea(
+        child: Browser(
+          initialUriString: 'https://flutter.dev/',
+          controller: BrowserController(
+            userAgent: 'Your user agent',
+          )
+        ),
+      ),
+    ),
+  ));
+}
+```
+
+## Accessing WebViewController
+To access [WebViewController](https://pub.dev/documentation/webview_flutter/latest/webview_flutter/WebViewController-class.html)
+by using [browserController.webViewController](https://pub.dev/documentation/web_browser/latest/web_browser/BrowserController/webViewController.html).
