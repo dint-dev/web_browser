@@ -55,7 +55,9 @@ The package contains two designs:
 By default, the package chooses a Cupertino or Material design based on whether the app is _CupertinoApp_ or _MaterialApp_.
 
 The navigation buttons look like this:
+
 ![](screenshots/cupertino.png)
+
 ![](screenshots/material.png)
 
 ## Localization
