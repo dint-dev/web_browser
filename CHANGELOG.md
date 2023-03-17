@@ -1,3 +1,6 @@
+## 0.6.0
+* Many improvements.
+
 ## 0.5.0
   * Migrates to Flutter 2.
 

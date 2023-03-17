@@ -1,4 +1,4 @@
-// Copyright 2020 Gohilla Ltd.
+// Copyright 2020-2023 Gohilla.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Contains [WebBrowser], a widget for displaying websites and web content.
+/// Contains [Browser] a widget for displaying websites and web content.
 library web_browser;
 
-export 'src/controller.dart';
-export 'src/feature_policy.dart';
-export 'src/iframe_settings.dart';
-export 'src/interaction_settings.dart';
-export 'src/share_url.dart';
-export 'src/web_browser.dart';
-export 'src/web_browser_address_bar.dart';
-export 'src/web_browser_buttons.dart';
-export 'src/web_browser_navigation_bar.dart';
+import 'src/web_browser/browser.dart';
+
+export 'src/web_browser/browser.dart';
+export 'src/web_browser/browser_controller.dart';
+export 'src/web_browser/browser_localizations.dart';
+export 'src/web_browser/browser_policy.dart';
