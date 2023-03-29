@@ -28,7 +28,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 In _pubspec.yaml_:
 ```yaml
 dependencies:
-  web_browser: ^0.7.3
+  web_browser: ^0.7.4
 ```
 
 ## 2.Display web browser
@@ -118,21 +118,23 @@ void main() {
 ```
 
 ## Cache clearing
-For privacy reasons, the package clears persistent state every now and then. This includes:
+For end-users privacy, it is good to clear:
   * Cookies
   * Caches
   * Local storage
 
-You can disable this behavior in your `main` function:
+You can enable this by setting:
 ```dart
 import 'package:web_browser/web_browser.dart';
 
 void main() {
-  // Disables clearing when the app is started
-  BrowserController.resetGlobalStateAtStart = false;
+  // Clear when the app is started
+  BrowserController.resetGlobalStateAtStart = true;
   
-  // Disables expiration.
-  BrowserController.globalStateExpiration = null;
+  // Clear every now and then.
+  BrowserController.globalStateExpiration = const Duration(days: 1);
+  
+  // ...
 }
 ```
 

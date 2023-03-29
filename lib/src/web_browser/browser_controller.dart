@@ -24,19 +24,18 @@ import '../../web_browser.dart';
 class BrowserController extends ChangeNotifier {
   /// How often [BrowserController.clearEverything] should be called.
   ///
-  /// If null, the cache is never cleaned. The default is currently 1 day, but
-  /// we could make it shorter or longer in a future version.
+  /// If null, the cache is never cleared automatically.
   ///
   /// This is a global variable because the underlying platform APIs don't have
   /// good support for per-browser clearing.
   ///
   /// See also [resetGlobalStateAtStart].
-  static Duration? globalStateExpiration = const Duration(days: 1);
+  static Duration? globalStateExpiration;
   static final _globalStateExpirationStopwatch = Stopwatch()..start();
 
   /// Whether [BrowserController.clearEverything] is called after starting the
   /// app.
-  static bool resetGlobalStateAtStart = true;
+  static bool resetGlobalStateAtStart = false;
 
   static int _globalStateVersion = 0;
   static Future<void>? _stateClearingFuture;
@@ -312,6 +311,9 @@ class BrowserController extends ChangeNotifier {
 
   /// Checks whether the cache should be cleared.
   Future<void> _maybeClearState() async {
+    if (kIsWeb) {
+      return;
+    }
     if (_globalStateVersion == 0 && resetGlobalStateAtStart) {
       await clearEverything();
     } else {
@@ -347,6 +349,9 @@ class BrowserController extends ChangeNotifier {
   /// Clears all persistent state, including cookies, caches, and local
   /// storage.
   static Future<void> clearEverything() async {
+    if (kIsWeb) {
+      return;
+    }
     // Combine multiple calls into one.
     return _stateClearingFuture ??= () async {
       try {
