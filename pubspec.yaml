@@ -23,7 +23,6 @@ dependencies:
 
   #
   # Packages by other parties:
-  #
   share_plus: ^7.0.2
 
 dev_dependencies:
